@@ -1,13 +1,14 @@
- use session;
- show tables;
- SET SQL_SAFE_UPDATES = 0;
+use bank;
+SET SQL_SAFE_UPDATES = 0;
  
-
-create view professor_on_first_year(title, professor_name,professor_lname)
+create view	only_man_person
 as
-select fy.title , p.fname, p.lname 
-from first_year fy
-inner join professor p on p.id_professor=fy.id_professor
+select  p.fname, p.lname from person p 
+where p.gender='M';
 
- 
+UPDATE only_man_person SET fname='Andrei'
+where fname='Andrey';
+
+INSERT INTO  only_man_person(fname,lname) VALUES ('petr','gaf');
+
 
