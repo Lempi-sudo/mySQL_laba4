@@ -11,7 +11,7 @@ end;//
 delimiter ;
 
 delete from team 
-where id_team=5;
+where id_team=3;
 
 
 #2.2 - Создать триггер, выполняющий проверку изменяемых данных (BEFORE UPDATE)
@@ -40,3 +40,19 @@ begin
 	end if;
 end ;//
 delimiter ;
+
+
+#2.3 Создать триггер, заполняющий одно из полей таблицы на основе вводимых данных 
+#(например, поле «Возраст» по вводимым данным поля «Дата рождения»). (BEFORE INSERT)
+
+delimiter //
+create trigger agе before insert on player
+for each row
+begin
+	if NEW.birth_data is not null then
+		insert into information_about_player(Age,idPlayer) value((YEAR(CURRENT_DATE) - YEAR(NEW.birth_data))
+        -(DATE_FORMAT(CURRENT_DATE, '%m%d') < DATE_FORMAT(NEW.birth_data, '%m%d')),new.idPlayer);
+	end if;
+	end;//
+delimiter ;
+
