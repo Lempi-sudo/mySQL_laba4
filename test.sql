@@ -2,6 +2,7 @@ use football_league;
 
 #2.1 Создать триггер, который при удалении записи из одной 
 #таблицы удаляет все связанные с ней данные из других таблиц. (AFTER DELETE)
+
 delimiter //
 create trigger delete_player after delete on team
 for each row
