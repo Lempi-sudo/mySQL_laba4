@@ -98,3 +98,46 @@ delimiter ;
 
 
 
+#2.5 Создать триггеры, осуществляющие протоколирование операций INSERT, UPDATE, DELETE для заданной таблицы.
+# Для этого создать новую таблицу, содержащую следующие поля: 
+#пользователь, операция, время, данные до выполнения операции, новые данные.
+
+delimiter //
+create trigger delete_protocol after delete ON team
+for each row 
+begin
+	insert into protocol(id_user,action,time,old_id_team,new_id_team,old_title,new_title,old_place,new_place,old_city,new_city) 
+    value( USER() , 'DELETE' , CURRENT_TIMESTAMP() , old.id_team , null , old.tittle , null , old.place , null , old.city , null);
+end;//
+delimiter ;
+
+
+delimiter //
+create trigger update_protocol after update ON team
+for each row 
+begin
+	insert into protocol(id_user,action,time,old_id_team,new_id_team,old_title,new_title,old_place,new_place,old_city,new_city) 
+    value( USER() , 'UPDATE' , CURRENT_TIMESTAMP() , old.id_team , new.id_team , old.tittle , new.tittle , old.place , new.place , old.city , new.city);
+end;//
+delimiter ;
+
+
+delimiter //
+create trigger insert_protocol after insert ON team
+for each row 
+begin
+	insert into protocol(id_user,action,time,old_id_team,new_id_team,old_title,new_title,old_place,new_place,old_city,new_city) 
+    value( USER() , 'INSERT' , CURRENT_TIMESTAMP() , null , new.id_team , null , new.tittle , null , new.place , null , new.city);
+end;//
+delimiter ;
+
+
+
+
+
+
+
+
+
+
+
